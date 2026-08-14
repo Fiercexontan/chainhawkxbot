@@ -5,6 +5,7 @@ interface AppConfig {
   nodeEnv: 'development' | 'production' | 'test';
   logLevel: string;
   encryptionSecret: string;
+  sepoliaRpcUrl: string;
 }
 
 function required(key: string): string {
@@ -32,4 +33,5 @@ export const config: AppConfig = {
   nodeEnv: (process.env.NODE_ENV as AppConfig['nodeEnv']) ?? 'development',
   logLevel: process.env.LOG_LEVEL ?? 'info',
   encryptionSecret: requiredHexKey('ENCRYPTION_SECRET', 32),
+  sepoliaRpcUrl: required('SEPOLIA_RPC_URL'),
 };
