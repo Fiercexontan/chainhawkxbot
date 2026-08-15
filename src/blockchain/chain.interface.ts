@@ -14,4 +14,9 @@ export interface ChainAdapter {
   getBalance(address: string): Promise<string>;
   // more methods land as we build Phase 3/4:
   // sendTransaction(...), getTransactionStatus(...), estimateGas(...)
+  sendTransaction(params: {
+    privateKey: string;
+    to: string;
+    amountEth: string;
+  }): Promise<string>; // returns the transaction hash
 }
