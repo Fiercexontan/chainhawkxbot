@@ -10,6 +10,7 @@
 export interface ChainAdapter {
   readonly chainId: string; // e.g. 'sepolia', 'bsc-testnet'
   readonly displayName: string;
+  readonly nativeCurrencySymbol: string;
 
   getBalance(address: string): Promise<string>;
   // more methods land as we build Phase 3/4:
@@ -18,5 +19,6 @@ export interface ChainAdapter {
     privateKey: string;
     to: string;
     amountEth: string;
-  }): Promise<string>; // returns the transaction hash
+  }): Promise<string>;  // returns the transaction hash
+  getExplorerTxUrl(txHash: string): string;
 }

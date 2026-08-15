@@ -1,20 +1,20 @@
 import { createPublicClient, createWalletClient, http, formatEther, parseEther } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { sepolia } from 'viem/chains';
+import { bscTestnet } from 'viem/chains';
 import { config } from '../../config/env.js';
 import type { ChainAdapter } from '../chain.interface.js';
 
 const publicClient = createPublicClient({
-  chain: sepolia,
-  transport: http(config.sepoliaRpcUrl),
+  chain: bscTestnet,
+  transport: http(config.bscTestnetRpcUrl),
 });
 
-export const sepoliaAdapter: ChainAdapter = {
-  chainId: 'sepolia',
-  displayName: 'Ethereum Sepolia',
-  nativeCurrencySymbol: 'ETH',
-  getExplorerTxUrl: (txHash: string) => `https://sepolia.etherscan.io/tx/${txHash}`,
-  
+export const bscTestnetAdapter: ChainAdapter = {
+  chainId: 'bsc-testnet',
+  displayName: 'BSC Testnet',
+  nativeCurrencySymbol: 'tBNB',
+  getExplorerTxUrl: (txHash: string) => `https://testnet.bscscan.com/tx/${txHash}`,
+
   async getBalance(address: string): Promise<string> {
     const balanceWei = await publicClient.getBalance({ address: address as `0x${string}` });
     return formatEther(balanceWei);
@@ -24,8 +24,8 @@ export const sepoliaAdapter: ChainAdapter = {
     const account = privateKeyToAccount(privateKey as `0x${string}`);
     const walletClient = createWalletClient({
       account,
-      chain: sepolia,
-      transport: http(config.sepoliaRpcUrl),
+      chain: bscTestnet,
+      transport: http(config.bscTestnetRpcUrl),
     });
 
     return walletClient.sendTransaction({

@@ -6,6 +6,7 @@ interface AppConfig {
   logLevel: string;
   encryptionSecret: string;
   sepoliaRpcUrl: string;
+  bscTestnetRpcUrl: string;
 }
 
 function required(key: string): string {
@@ -34,4 +35,5 @@ export const config: AppConfig = {
   logLevel: process.env.LOG_LEVEL ?? 'info',
   encryptionSecret: requiredHexKey('ENCRYPTION_SECRET', 32),
   sepoliaRpcUrl: required('SEPOLIA_RPC_URL'),
+  bscTestnetRpcUrl: required('BSC_TESTNET_RPC_URL'),
 };

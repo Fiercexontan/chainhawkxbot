@@ -2,14 +2,14 @@ import { Telegraf } from 'telegraf';
 import { logger } from '../../logger/logger.js';
 import { upsertUser } from '../../users/user.service.js';
 import { getWalletForUser } from '../../wallets/wallet.service.js';
-import { sepoliaAdapter } from '../../blockchain/chains/sepolia.chain.js';
+import { getChainAdapter } from '../../blockchain/registry.js';
+import { formatBalance } from '../../blockchain/format.js';
 
 export function registerBalanceHandler(bot: Telegraf): void {
   bot.command('balance', async (ctx) => {
-    if (!ctx.from) {
-      logger.warn('Received /balance with no ctx.from - ignoring');
-      return;
-    }
+    if (!ctx.from) return;
+
+    const chainArg = ctx.message.text.trim().split(/\s+/)[1];
 
     const user = await upsertUser({
       telegramId: ctx.from.id,
@@ -18,18 +18,26 @@ export function registerBalanceHandler(bot: Telegraf): void {
     });
 
     const wallet = await getWalletForUser(user.id);
-
     if (!wallet) {
       await ctx.reply("You don't have a wallet yet - send /wallet first to create one.");
       return;
     }
 
-    await ctx.reply('🔎 Checking your balance on Sepolia...');
+    let adapter;
+    try {
+      adapter = getChainAdapter(chainArg);
+    } catch {
+      await ctx.reply('Unknown chain. Try: `/balance` (Sepolia) or `/balance bsc`', {
+        parse_mode: 'Markdown',
+      });
+      return;
+    }
 
-    const balance = await sepoliaAdapter.getBalance(wallet.address);
+    await ctx.reply(`🔎 Checking your balance on ${adapter.displayName}...`);
+    const balance = await adapter.getBalance(wallet.address);
 
     await ctx.reply(
-      `💰 *Sepolia Balance*\n\n\`${wallet.address}\`\n\n${balance} ETH`,
+      `💰 *${adapter.displayName} Balance*\n\n\`${wallet.address}\`\n\n${formatBalance(balance)} ${adapter.nativeCurrencySymbol}`,
       { parse_mode: 'Markdown' }
     );
   });

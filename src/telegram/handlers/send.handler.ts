@@ -3,6 +3,7 @@ import { logger } from '../../logger/logger.js';
 import { upsertUser } from '../../users/user.service.js';
 import { getWalletForUser } from '../../wallets/wallet.service.js';
 import { sendFromUserWallet } from '../../blockchain/transaction.service.js';
+import { getChainAdapter } from '../../blockchain/registry.js';
 
 const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/;
 
@@ -11,11 +12,11 @@ export function registerSendHandler(bot: Telegraf): void {
     if (!ctx.from) return;
 
     const parts = ctx.message.text.trim().split(/\s+/);
-    const [, toAddress, amountStr] = parts;
+    const [, toAddress, amountStr, chainArg] = parts;
 
     if (!toAddress || !amountStr) {
       await ctx.reply(
-        'Usage: `/send <address> <amount>`\nExample: `/send 0x1234...abcd 0.01`',
+        'Usage: `/send <address> <amount> [chain]`\nExample: `/send 0x1234...abcd 0.01 bsc`\nDefault chain: Sepolia',
         { parse_mode: 'Markdown' }
       );
       return;
@@ -32,6 +33,14 @@ export function registerSendHandler(bot: Telegraf): void {
       return;
     }
 
+    let adapter;
+    try {
+      adapter = getChainAdapter(chainArg);
+    } catch {
+      await ctx.reply('Unknown chain. Supported: sepolia, bsc');
+      return;
+    }
+
     const user = await upsertUser({
       telegramId: ctx.from.id,
       username: ctx.from.username,
@@ -44,25 +53,25 @@ export function registerSendHandler(bot: Telegraf): void {
       return;
     }
 
-    await ctx.reply(`Sending ${amountStr} ETH to \`${toAddress}\` on Sepolia...`, {
-      parse_mode: 'Markdown',
-    });
+    await ctx.reply(
+      `Sending ${amountStr} ${adapter.nativeCurrencySymbol} to \`${toAddress}\` on ${adapter.displayName}...`,
+      { parse_mode: 'Markdown' }
+    );
 
     try {
-      const txHash = await sendFromUserWallet(user.id, toAddress, amountStr);
+      const txHash = await sendFromUserWallet(user.id, toAddress, amountStr, chainArg);
       logger.info(
-        { userId: user.telegramId.toString(), txHash, toAddress, amount: amountStr },
+        { userId: user.telegramId.toString(), txHash, toAddress, amount: amountStr, chain: adapter.chainId },
         'Transaction sent'
       );
-      await ctx.reply(
-        `✅ *Sent*\n\n[View on Etherscan](https://sepolia.etherscan.io/tx/${txHash})`,
-        { parse_mode: 'Markdown' }
-      );
+      await ctx.reply(`✅ *Sent*\n\n[View Transaction](${adapter.getExplorerTxUrl(txHash)})`, {
+        parse_mode: 'Markdown',
+      });
     } catch (err) {
       logger.error({ err, userId: user.telegramId.toString() }, 'Send transaction failed');
       await ctx.reply(
         "⚠️ Something went wrong sending this. I can't be certain whether it landed - " +
-          'check /balance before retrying, so you don\'t risk sending twice.'
+          "check /balance before retrying, so you don't risk sending twice."
       );
     }
   });
