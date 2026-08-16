@@ -1,4 +1,4 @@
-import { createPublicClient, createWalletClient, http, formatEther, parseEther } from 'viem';
+import { createPublicClient, createWalletClient, formatEther, formatGwei, http, parseEther } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { bscTestnet } from 'viem/chains';
 import { config } from '../../config/env.js';
@@ -18,6 +18,14 @@ export const bscTestnetAdapter: ChainAdapter = {
   async getBalance(address: string): Promise<string> {
     const balanceWei = await publicClient.getBalance({ address: address as `0x${string}` });
     return formatEther(balanceWei);
+  },
+
+  async getNetworkStatus() {
+    const [blockNumber, gasPrice] = await Promise.all([
+      publicClient.getBlockNumber(),
+      publicClient.getGasPrice(),
+    ]);
+    return { blockNumber, gasPriceGwei: formatGwei(gasPrice) };
   },
 
   async sendTransaction({ privateKey, to, amountEth }): Promise<string> {

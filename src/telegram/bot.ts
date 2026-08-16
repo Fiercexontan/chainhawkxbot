@@ -6,6 +6,7 @@ import { registerHelpHandler } from './handlers/help.handler.js';
 import { registerWalletHandler } from './handlers/wallet.handler.js';
 import { registerBalanceHandler } from './handlers/balance.handler.js';
 import { registerSendHandler } from './handlers/send.handler.js';
+import { registerStatusHandler } from './handlers/status.handler.js';
 export function createBot(): Telegraf {
   const bot = new Telegraf(config.botToken);
 
@@ -19,5 +20,6 @@ export function createBot(): Telegraf {
   registerWalletHandler(bot);
   registerBalanceHandler(bot);
   registerSendHandler(bot);
+  registerStatusHandler(bot);
   return bot;
 }
