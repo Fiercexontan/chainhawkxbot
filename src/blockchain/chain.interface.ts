@@ -11,6 +11,7 @@ export interface ChainAdapter {
   readonly chainId: string; // e.g. 'sepolia', 'bsc-testnet'
   readonly displayName: string;
   readonly nativeCurrencySymbol: string;
+  readonly explorerChainId: number;
 
   getBalance(address: string): Promise<string>;
   // more methods land as we build Phase 3/4:

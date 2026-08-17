@@ -13,6 +13,7 @@ export const bscTestnetAdapter: ChainAdapter = {
   chainId: 'bsc-testnet',
   displayName: 'BSC Testnet',
   nativeCurrencySymbol: 'tBNB',
+  explorerChainId: 97,
   getExplorerTxUrl: (txHash: string) => `https://testnet.bscscan.com/tx/${txHash}`,
 
   async getBalance(address: string): Promise<string> {

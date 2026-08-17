@@ -11,8 +11,8 @@ export function registerHelpHandler(bot: Telegraf): void {
         `/send <address> <amount> [chain] — Send a transaction\n` +
         `/status — Network status across all chains\n` +
         `/help — This message\n\n` +
+        `/export — Export your private key (use with care)\n` +
         `🔧 *Building next*\n` +
-        `Secure private key export\n` +
         `Flow EVM support\n` +
         `Portfolio insights\n\n` +
         `Nothing here claims more than what's actually running.`,

@@ -7,6 +7,7 @@ interface AppConfig {
   encryptionSecret: string;
   sepoliaRpcUrl: string;
   bscTestnetRpcUrl: string;
+  etherscanApiKey: string;
 }
 
 function required(key: string): string {
@@ -36,4 +37,5 @@ export const config: AppConfig = {
   encryptionSecret: requiredHexKey('ENCRYPTION_SECRET', 32),
   sepoliaRpcUrl: required('SEPOLIA_RPC_URL'),
   bscTestnetRpcUrl: required('BSC_TESTNET_RPC_URL'),
+  etherscanApiKey: required('ETHERSCAN_API_KEY'),
 };

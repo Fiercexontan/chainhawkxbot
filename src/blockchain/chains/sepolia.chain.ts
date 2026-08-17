@@ -13,6 +13,7 @@ export const sepoliaAdapter: ChainAdapter = {
   chainId: 'sepolia',
   displayName: 'Ethereum Sepolia',
   nativeCurrencySymbol: 'ETH',
+  explorerChainId: 11155111,
   getExplorerTxUrl: (txHash: string) => `https://sepolia.etherscan.io/tx/${txHash}`,
 
   async getBalance(address: string): Promise<string> {
