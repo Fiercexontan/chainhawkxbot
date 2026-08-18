@@ -35,6 +35,8 @@ error to both the user and the logs instead of failing silently. Real
 external dependencies fail in ways outside your control; the measure of
 good code is failing honestly when they do, and this exact scenario
 proved the design first-time-live rather than in a contrived test.
+Confirmed resolved after ~22 hours with zero changes on our end -
+consistent with the pattern found from other developers' reports.
 
 ## Future Improvements
 - Retry key validity check once resolved, confirm live data renders correctly

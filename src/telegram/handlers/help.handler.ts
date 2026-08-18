@@ -10,6 +10,7 @@ export function registerHelpHandler(bot: Telegraf): void {
         `/balance [chain] — Check balance (Sepolia, BSC Testnet)\n` +
         `/send <address> <amount> [chain] — Send a transaction\n` +
         `/status — Network status across all chains\n` +
+        `/history [chain] — View recent transactions\n` +
         `/help — This message\n\n` +
         `/export — Export your private key (use with care)\n` +
         `🔧 *Building next*\n` +
