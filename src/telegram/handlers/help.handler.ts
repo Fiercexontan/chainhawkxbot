@@ -13,9 +13,12 @@ export function registerHelpHandler(bot: Telegraf): void {
         `/history [chain] — View recent transactions\n` +
         `/help — This message\n\n` +
         `/export — Export your private key (use with care)\n` +
+        `/balance [chain] — Check balance (Sepolia, BSC, Flow)\n` +
+        `/send <address> <amount> [chain] — Send a transaction\n` +
+        `/portfolio — Total holdings across all chains, in USD\n` +
         `🔧 *Building next*\n` +
-        `Flow EVM support\n` +
-        `Portfolio insights\n\n` +
+        `Transaction notifications\n` +
+        `Educational guidance\n\n` +
         `Nothing here claims more than what's actually running.`,
       { parse_mode: 'Markdown' }
     );

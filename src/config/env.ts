@@ -8,6 +8,8 @@ interface AppConfig {
   sepoliaRpcUrl: string;
   bscTestnetRpcUrl: string;
   etherscanApiKey: string;
+  flowTestnetRpcUrl: string;
+  coingeckoApiKey: string;
 }
 
 function required(key: string): string {
@@ -38,4 +40,6 @@ export const config: AppConfig = {
   sepoliaRpcUrl: required('SEPOLIA_RPC_URL'),
   bscTestnetRpcUrl: required('BSC_TESTNET_RPC_URL'),
   etherscanApiKey: required('ETHERSCAN_API_KEY'),
+  flowTestnetRpcUrl: required('FLOW_TESTNET_RPC_URL'),
+  coingeckoApiKey: required('COINGECKO_API_KEY'),
 };

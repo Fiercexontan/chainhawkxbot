@@ -1,11 +1,14 @@
 import type { ChainAdapter } from './chain.interface.js';
 import { sepoliaAdapter } from './chains/sepolia.chain.js';
 import { bscTestnetAdapter } from './chains/bsc-testnet.chain.js';
+import { flowTestnetAdapter } from './chains/flow-testnet.chain.js';
 
 const chains: Record<string, ChainAdapter> = {
   sepolia: sepoliaAdapter,
   bsc: bscTestnetAdapter,
   'bsc-testnet': bscTestnetAdapter,
+  flow: flowTestnetAdapter,
+  'flow-testnet': flowTestnetAdapter,
 };
 
 export const DEFAULT_CHAIN_ID = 'sepolia';

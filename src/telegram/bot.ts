@@ -9,6 +9,7 @@ import { registerSendHandler } from './handlers/send.handler.js';
 import { registerStatusHandler } from './handlers/status.handler.js';
 import { registerExportHandler } from './handlers/export.handler.js';
 import { registerHistoryHandler } from './handlers/history.handler.js';
+import { registerPortfolioHandler } from './handlers/portfolio.handler.js';
 export function createBot(): Telegraf {
   const bot = new Telegraf(config.botToken);
 
@@ -25,5 +26,6 @@ export function createBot(): Telegraf {
   registerStatusHandler(bot);
   registerExportHandler(bot);
   registerHistoryHandler(bot);
+  registerPortfolioHandler(bot);
   return bot;
 }

@@ -12,7 +12,8 @@ export interface ChainAdapter {
   readonly displayName: string;
   readonly nativeCurrencySymbol: string;
   readonly explorerChainId: number;
-
+  readonly coingeckoId: string;
+  
   getBalance(address: string): Promise<string>;
   // more methods land as we build Phase 3/4:
   getNetworkStatus(): Promise<{ blockNumber: bigint; gasPriceGwei: string }>;
