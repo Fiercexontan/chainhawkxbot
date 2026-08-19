@@ -10,17 +10,18 @@
     "lint": "eslint . --ext .ts"
   },
   "dependencies": {
-    "@prisma/adapter-better-sqlite3": "^7.9.1",
+    "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "dotenv": "^16.4.5",
+    "pg": "^8.23.0",
     "pino": "^9.3.2",
     "pino-pretty": "^11.2.2",
     "telegraf": "^4.16.3",
     "viem": "^2.55.13"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^20.14.15",
+    "@types/pg": "^8.23.1",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
     "eslint": "^9.9.0",
