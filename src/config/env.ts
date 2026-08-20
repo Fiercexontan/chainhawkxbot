@@ -10,6 +10,9 @@ interface AppConfig {
   etherscanApiKey: string;
   flowTestnetRpcUrl: string;
   coingeckoApiKey: string;
+  webhookDomain?: string;
+  webhookSecret?: string;
+  port: number;
 }
 
 function required(key: string): string {
@@ -42,4 +45,7 @@ export const config: AppConfig = {
   etherscanApiKey: required('ETHERSCAN_API_KEY'),
   flowTestnetRpcUrl: required('FLOW_TESTNET_RPC_URL'),
   coingeckoApiKey: required('COINGECKO_API_KEY'),
+  webhookDomain: process.env.WEBHOOK_DOMAIN,
+  webhookSecret: process.env.WEBHOOK_SECRET,
+  port: Number(process.env.PORT) || 3000,
 };
