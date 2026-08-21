@@ -2,6 +2,7 @@ import { Telegraf } from 'telegraf';
 import { logger } from '../../logger/logger.js';
 import { upsertUser } from '../../users/user.service.js';
 import { createWalletForUser, getWalletForUser } from '../../wallets/wallet.service.js';
+import { getAllChainAdapters } from '../../blockchain/registry.js';
 
 export function registerWalletHandler(bot: Telegraf): void {
   bot.command('wallet', async (ctx) => {
@@ -18,12 +19,17 @@ export function registerWalletHandler(bot: Telegraf): void {
       firstName: ctx.from.first_name,
     });
 
+    const chainList = getAllChainAdapters()
+      .map((a) => a.displayName)
+      .join(', ');
+
     const existing = await getWalletForUser(user.id);
 
     if (existing) {
       await ctx.reply(
-        `💼 *Your wallet*\n\n\`${existing.address}\`\n\n` +
-          `This address works across every EVM chain I support - Sepolia, BSC Testnet, and more to come.`,
+        `✅ *Wallet already exists*\n\n\`${existing.address}\`\n\n` +
+          `This address works across every chain I support: ${chainList}.\n\n` +
+          `Try /balance to check what's in it, or /portfolio for the full picture.`,
         { parse_mode: 'Markdown' }
       );
       return;
