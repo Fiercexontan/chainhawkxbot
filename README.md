@@ -4,7 +4,7 @@ A modular, conversational Telegram blockchain assistant — create and manage a 
 
 **Live now:** message [@ChainHawkXBot](https://t.me/ChainHawkXBot) on Telegram.
 
-Built as a professional case study in system design and engineering discipline. For the full story — including the real debugging battles and lessons learned — see [`docs/case-study-brief.md`](./docs/case-study-brief.md). For the detailed technical build log, see `docs/phase-0` through `docs/phase-12`.
+Built as a professional case study in system design and engineering discipline. For the full story — including the real debugging battles and lessons learned — see [`docs/case-study-brief.md`](case-study-brief.md). For the detailed technical build log, see `docs/phase-0` through `docs/phase-12`.
 
 ## Features
 
